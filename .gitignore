@@ -1,1 +1,5 @@
-.pyc
+# Remove all compiled bytecode files created by python venv
+*.pyc
+
+# Remove mac finder setting
+.DS_Store
