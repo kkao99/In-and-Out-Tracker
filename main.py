@@ -22,5 +22,8 @@ class TrackerApp(App):
 
 if __name__ == '__main__':
     Config.set('graphics', 'resizable', True)
-    Window.clearcolor = (0.8, 0.8, 0.8, 1)
+    # white
+    Window.clearcolor = (0.75, 0.75, 0.75, 1)
+    # black
+    Window.clearcolor = (0.3, 0.3, 0.3, 1)
     TrackerApp().run()
