@@ -21,7 +21,7 @@ class TrackerApp(App):
 
 
 if __name__ == '__main__':
-    Config.set('graphics', 'resizable', True)
+    Config.set('graphics', 'resizable', '1')
     # white
     Window.clearcolor = (0.75, 0.75, 0.75, 1)
     # black

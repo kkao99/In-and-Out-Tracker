@@ -3,7 +3,7 @@ kivy.require('1.11.1')
 
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
-from kivy.lang.builder import Builder
+# from kivy.lang.builder import Builder
 from kivy.metrics import dp
 
 # layout
@@ -29,7 +29,7 @@ class TrackerLayout(GridLayout):
         super(TrackerLayout, self).__init__(**kwargs)
 
         # TODO: change cols to 1 and add gridlayout and anchorlayout for each row
-        self.cols = 3
+        self.cols = 1
         self.size_hint = (0.7, 1)
         self.pos_hint = {'x': 0.15}
         self.padding = [0, dp(60), 0, dp(40)]
@@ -60,4 +60,10 @@ class TrackerLayout(GridLayout):
         else:
             current = datetime.datetime.now()
             print(current)
+
+            handler = open('report.csv', 'a')
+            handler.write(self.ids.first.text + ',' + self.ids.last.text + ',' + str(current) + '\n')
+
             self.ids.sign_btn.text = 'Check in'
+            self.ids.first.text = ''
+            self.ids.last.text = ''

@@ -1,85 +1,77 @@
 <TrackerLayout>:
-    Label:
-        text: 'First Name'
-        font_size: dp(22)
-    Label:
-        text: 'Last Name'
-        font_size: dp(22)
-    Label:
-        text: 'Time'
-        font_size: dp(22)
+
+    # Label row
+    GridLayout:
+        cols: 4
+        # size_hint: (None, None)
+        row_default_height: dp(45)
+        row_force_default: True
+        Label:
+            text: 'First Name'
+            font_size: dp(22)
+        Label:
+            text: 'Last Name'
+            font_size: dp(22)
+        Label:
+            text: 'Grade'
+            font_size: dp(22)
+        Label:
+            text: 'Time'
+            font_size: dp(22)
 
     # [START] input field
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    Button:
-        id: sign_btn
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: 'Check in'
-        on_release: root._update()
+    GridLayout:
+        cols: 4
+        row_default_height: dp(45)
+        row_force_default: True
 
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    Button:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: 'Check in'
+        # first name input field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            TextInput:
+                id: first_name
+                size_hint: (None, None)
+                width: dp(160)
+                height: dp(35)
+                font_size: dp(20)
+                text: ''
+                multiline: False
 
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    Button:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: 'Check in'
+        # last name input field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            TextInput:
+                id: last_name
+                size_hint: (None, None)
+                width: dp(160)
+                height: dp(35)
+                font_size: dp(20)
+                text: ''
+                multiline: False
 
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    TextInput:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: ''
-        multiline: False
-    Button:
-        size_hint_y: None
-        height: dp(35)
-        font_size: dp(20)
-        text: 'Check in'
+        # grade button field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            Button:
+                id: grade_btn
+                size_hint: (None, None)
+                width: dp(100)
+                height: dp(35)
+                font_size: dp(20)
+                text: 'Grade'
+
+        # check button field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            Button:
+                id: check_btn
+                size_hint: (None, None)
+                width: dp(140)
+                height: dp(35)
+                font_size: dp(20)
+                text: 'Check in'
+                on_release: root._update()
