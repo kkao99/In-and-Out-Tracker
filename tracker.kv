@@ -37,6 +37,7 @@
                 font_size: dp(20)
                 text: ''
                 multiline: False
+                write_tab: False
 
         # last name input field
         AnchorLayout:
@@ -50,6 +51,7 @@
                 font_size: dp(20)
                 text: ''
                 multiline: False
+                write_tab: False
 
         # grade button field
         AnchorLayout:
@@ -62,6 +64,7 @@
                 height: dp(35)
                 font_size: dp(20)
                 text: 'Grade'
+                on_release: root._open_grade_dropdown(self)
 
         # check button field
         AnchorLayout:
@@ -75,3 +78,31 @@
                 font_size: dp(20)
                 text: 'Check in'
                 on_release: root._update()
+
+
+<GradeDropdown>:
+    id: grade_dropdown
+    Button:
+        size_hint_y: None
+        height: dp(40)
+        font_size: dp(18)
+        text: '9'
+        on_release: grade_dropdown.select('9')
+    Button:
+        size_hint_y: None
+        height: dp(40)
+        font_size: dp(18)
+        text: '10'
+        on_release: grade_dropdown.select('10')
+    Button:
+        size_hint_y: None
+        height: dp(40)
+        font_size: dp(18)
+        text: '11'
+        on_release: grade_dropdown.select('11')
+    Button:
+        size_hint_y: None
+        height: dp(40)
+        font_size: dp(18)
+        text: '12'
+        on_release: grade_dropdown.select('12')

@@ -12,6 +12,7 @@ from kivy.uix.gridlayout import GridLayout
 
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.dropdown import DropDown
 
 import datetime
 
@@ -28,7 +29,7 @@ class TrackerLayout(GridLayout):
     def __init__(self, **kwargs):
         super(TrackerLayout, self).__init__(**kwargs)
 
-        # TODO: change cols to 1 and add gridlayout and anchorlayout for each row
+        # basic setting
         self.cols = 1
         self.size_hint = (0.7, 1)
         self.pos_hint = {'x': 0.15}
@@ -36,34 +37,42 @@ class TrackerLayout(GridLayout):
         self.spacing = [0, dp(50)]
         self.row_default_height = dp(45)
         self.row_force_default = True
-        # btn = Button(text='click')
-        # btn.bind(on_release=self.change_page)
-        # self.add_widget(btn)
+
+        self.grade_dropdown = GradeDropdown()
+        self.grade_dropdown.bind(on_select=lambda instance, x: setattr(self.ids.grade_btn, 'text', x))
 
     def change_page(self, event):
         app = App.get_running_app()
         app.root.current = 'login'
         pass
 
+    def _open_grade_dropdown(self, widget):
+        self.grade_dropdown.open(widget)
+
     def _update(self):
 
-        # TODO: save info to database, clear input field
+        # TODO: save info to database, clear input field, and validate
 
         print('get time')
-        print(self.ids.sign_btn.text)
+        print(self.ids.check_btn.text)
+        print(self.ids.grade_btn.text)
 
         # TODO: regex retrieve '08:00 am mm/dd/yy'
-        if self.ids.sign_btn.text == 'Check in':
+        if self.ids.check_btn.text == 'Check in':
             current = datetime.datetime.now()
             print(current)
-            self.ids.sign_btn.text = 'Check out'
+            self.ids.check_btn.text = 'Check out'
         else:
             current = datetime.datetime.now()
             print(current)
 
             handler = open('report.csv', 'a')
-            handler.write(self.ids.first.text + ',' + self.ids.last.text + ',' + str(current) + '\n')
+            handler.write(self.ids.first_name.text + ',' + self.ids.last_name.text + ',' + str(current) + '\n')
 
-            self.ids.sign_btn.text = 'Check in'
-            self.ids.first.text = ''
-            self.ids.last.text = ''
+            self.ids.check_btn.text = 'Check in'
+            self.ids.first_name.text = ''
+            self.ids.last_name.text = ''
+
+
+class GradeDropdown(DropDown):
+    pass
