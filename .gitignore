@@ -3,3 +3,6 @@
 
 # Remove mac finder setting
 .DS_Store
+
+# Untrack .csv file
+report.csv

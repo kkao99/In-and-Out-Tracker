@@ -67,7 +67,8 @@ class TrackerLayout(GridLayout):
             print(current)
 
             handler = open('report.csv', 'a')
-            handler.write(self.ids.first_name.text + ',' + self.ids.last_name.text + ',' + str(current) + '\n')
+            msg = f"{self.ids.first_name.text},{self.ids.last_name.text},{self.ids.grade_btn.text},{str(current)}\n"
+            handler.write(msg)
 
             self.ids.check_btn.text = 'Check in'
             self.ids.first_name.text = ''
