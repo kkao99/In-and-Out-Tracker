@@ -4,5 +4,6 @@
 # Remove mac finder setting
 .DS_Store
 
-# Untrack .csv file
+# Untrack unnecessary files
 report.csv
+time_data.json

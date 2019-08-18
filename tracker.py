@@ -5,6 +5,8 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen
 # from kivy.lang.builder import Builder
 from kivy.metrics import dp
+from kivy.properties import ObjectProperty
+from kivy.storage.jsonstore import JsonStore
 
 # layout
 from kivy.uix.floatlayout import FloatLayout
@@ -26,6 +28,9 @@ class TrackerScreen(Screen):
 
 
 class TrackerLayout(GridLayout):
+
+    time_data = ObjectProperty(None)
+
     def __init__(self, **kwargs):
         super(TrackerLayout, self).__init__(**kwargs)
 
@@ -37,6 +42,8 @@ class TrackerLayout(GridLayout):
         self.spacing = [0, dp(50)]
         self.row_default_height = dp(45)
         self.row_force_default = True
+
+        self.time_data = JsonStore('time_data.json')
 
         self.grade_dropdown = GradeDropdown()
         self.grade_dropdown.bind(on_select=lambda instance, x: setattr(self.ids.grade_btn, 'text', x))
@@ -53,21 +60,23 @@ class TrackerLayout(GridLayout):
 
         # TODO: save info to database, clear input field, and validate
 
-        print('get time')
         print(self.ids.check_btn.text)
-        print(self.ids.grade_btn.text)
 
-        # TODO: regex retrieve '08:00 am mm/dd/yy'
         if self.ids.check_btn.text == 'Check in':
-            current = datetime.datetime.now()
+            current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(current)
             self.ids.check_btn.text = 'Check out'
+            self.time_data.put(f"{self.ids.first_name.text}{self.ids.last_name.text}", in_time=current)
+
         else:
-            current = datetime.datetime.now()
+            current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(current)
 
             handler = open('report.csv', 'a')
-            msg = f"{self.ids.first_name.text},{self.ids.last_name.text},{self.ids.grade_btn.text},{str(current)}\n"
+            name = f"{self.ids.first_name.text},{self.ids.last_name.text}"
+            in_time = self.time_data.get(name.replace(',', ''))['in_time']
+            out_time = f"{str(current)}"
+            msg = f"{name},{self.ids.grade_btn.text},{in_time},{out_time}\n"
             handler.write(msg)
 
             self.ids.check_btn.text = 'Check in'
