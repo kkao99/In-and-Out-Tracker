@@ -19,7 +19,7 @@
             text: 'Time'
             font_size: dp(22)
 
-    # [START] input field
+    # [START] input field - 1
     GridLayout:
         cols: 4
         row_default_height: dp(45)
@@ -30,7 +30,7 @@
             anchor_x: 'center'
             anchor_y: 'center'
             TextInput:
-                id: first_name
+                id: first_name_1
                 size_hint: (None, None)
                 width: dp(160)
                 height: dp(35)
@@ -44,7 +44,7 @@
             anchor_x: 'center'
             anchor_y: 'center'
             TextInput:
-                id: last_name
+                id: last_name_1
                 size_hint: (None, None)
                 width: dp(160)
                 height: dp(35)
@@ -58,51 +58,111 @@
             anchor_x: 'center'
             anchor_y: 'center'
             Button:
-                id: grade_btn
+                id: grade_btn_1
                 size_hint: (None, None)
                 width: dp(100)
                 height: dp(35)
                 font_size: dp(20)
                 text: 'Grade'
-                on_release: root._open_grade_dropdown(self)
+                on_release: root._open_grade_dropdown(self, index=1)
 
         # check button field
         AnchorLayout:
             anchor_x: 'center'
             anchor_y: 'center'
             Button:
-                id: check_btn
+                id: check_btn_1
                 size_hint: (None, None)
                 width: dp(140)
                 height: dp(35)
                 font_size: dp(20)
                 text: 'Check in'
-                on_release: root._update()
+                on_release: root._update(index=1)
+
+    # [START] input field - 2
+    GridLayout:
+        cols: 4
+        row_default_height: dp(45)
+        row_force_default: True
+
+        # first name input field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            TextInput:
+                id: first_name_2
+                size_hint: (None, None)
+                width: dp(160)
+                height: dp(35)
+                font_size: dp(20)
+                text: ''
+                multiline: False
+                write_tab: False
+
+        # last name input field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            TextInput:
+                id: last_name_2
+                size_hint: (None, None)
+                width: dp(160)
+                height: dp(35)
+                font_size: dp(20)
+                text: ''
+                multiline: False
+                write_tab: False
+
+        # grade button field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            Button:
+                id: grade_btn_2
+                size_hint: (None, None)
+                width: dp(100)
+                height: dp(35)
+                font_size: dp(20)
+                text: 'Grade'
+                on_release: root._open_grade_dropdown(self, index=2)
+
+        # check button field
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            Button:
+                id: check_btn_2
+                size_hint: (None, None)
+                width: dp(140)
+                height: dp(35)
+                font_size: dp(20)
+                text: 'Check in'
+                on_release: root._update(index=2)
 
 
-<GradeDropdown>:
-    id: grade_dropdown
-    Button:
-        size_hint_y: None
-        height: dp(40)
-        font_size: dp(18)
-        text: '9'
-        on_release: grade_dropdown.select('9')
-    Button:
-        size_hint_y: None
-        height: dp(40)
-        font_size: dp(18)
-        text: '10'
-        on_release: grade_dropdown.select('10')
-    Button:
-        size_hint_y: None
-        height: dp(40)
-        font_size: dp(18)
-        text: '11'
-        on_release: grade_dropdown.select('11')
-    Button:
-        size_hint_y: None
-        height: dp(40)
-        font_size: dp(18)
-        text: '12'
-        on_release: grade_dropdown.select('12')
+
+# <GradeDropdown>:
+#     Button:
+#         size_hint_y: None
+#         height: dp(40)
+#         font_size: dp(18)
+#         text: '9'
+#         on_release: root.select('9')
+#     Button:
+#         size_hint_y: None
+#         height: dp(40)
+#         font_size: dp(18)
+#         text: '10'
+#         on_release: root.select('10')
+#     Button:
+#         size_hint_y: None
+#         height: dp(40)
+#         font_size: dp(18)
+#         text: '11'
+#         on_release: root.select('11')
+#     Button:
+#         size_hint_y: None
+#         height: dp(40)
+#         font_size: dp(18)
+#         text: '12'
+#         on_release: root.select('12')
