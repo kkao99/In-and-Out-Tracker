@@ -12,9 +12,11 @@ from kivy.storage.jsonstore import JsonStore
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 
+# widget
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
+from kivy.uix.popup import Popup
 
 import datetime
 from functools import partial
@@ -44,28 +46,18 @@ class TrackerLayout(GridLayout):
         self.row_default_height = dp(45)
         self.row_force_default = True
 
+        # store temparary in_time data in json file
         self.time_data = JsonStore('time_data.json')
 
         for i in range(1, 6):
             """ Create grade 9-12 dropdown list. """
+
             self.ids[f'grade_dropdown_{i}'] = DropDown()
-            btn = Button(size_hint_y=None, text='9', height=dp(40), font_size=dp(18))
-            btn.bind(on_release=partial(self._select_grade, index=i))
-            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
 
-            btn = Button(size_hint_y=None, text='10', height=dp(40), font_size=dp(18))
-            btn.bind(on_release=partial(self._select_grade, index=i))
-            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
-
-            btn = Button(size_hint_y=None, text='11', height=dp(40), font_size=dp(18))
-            btn.bind(on_release=partial(self._select_grade, index=i))
-            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
-
-            btn = Button(size_hint_y=None, text='12', height=dp(40), font_size=dp(18))
-            btn.bind(on_release=partial(self._select_grade, index=i))
-            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
-
-            # self.ids[f'grade_dropdown_{i}'].bind(on_select=lambda instance, x: setattr(self.ids[f'grade_btn_{i}'], 'text', x))
+            for j in range(9, 13):
+                btn = Button(size_hint_y=None, text=str(j), height=dp(40), font_size=dp(18))
+                btn.bind(on_release=partial(self._select_grade, index=i))
+                self.ids[f'grade_dropdown_{i}'].add_widget(btn)
 
     def _select_grade(self, event, index):
         self.ids[f'grade_dropdown_{index}'].select(event.text)
@@ -80,26 +72,38 @@ class TrackerLayout(GridLayout):
         self.ids[f'grade_dropdown_{index}'].open(widget)
 
     def _update(self, index):
-
-        # TODO: save info to database, clear input field, and validate
-
-        print(self.ids[f'check_btn_{index}'].text)
-
+        
         if self.ids[f'check_btn_{index}'].text == 'Check in':
 
-            # save the "get in time" to json
-            current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(current)
-            self.time_data.put(f"{self.ids[f'first_name_{index}'].text}{self.ids[f'last_name_{index}'].text}", in_time=current)
+            if (self.ids[f'first_name_{index}'].text == '' or
+                self.ids[f'last_name_{index}'].text == '' or
+                self.ids[f'grade_btn_{index}'].text == 'Grade'):
 
-            self.ids[f'check_btn_{index}'].text = 'Check out'
+                # popup that notifies user for invalid input
+                danger_popup = Popup(title='Error Message',
+                            title_color=[1, 1, 0, 1],
+                            title_align='center',
+                            title_size=dp(20),
+                            content=Label(text='Please fill out every field.', color=[1, 0, 0, 1], font_size=dp(18)),
+                            size_hint=(None, None),
+                            size=(dp(300), dp(300)),
+                            pos_hint={'center_x': 0.5, 'center_y': 0.5})
+
+                danger_popup.open()
+
+            else:
+                # save the "get in time" to json
+                current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print(current)
+                self.time_data.put(f"{self.ids[f'first_name_{index}'].text}{self.ids[f'last_name_{index}'].text}", in_time=current)
+
+                self.ids[f'check_btn_{index}'].text = 'Check out'
 
         else:
 
-            """ Write first_name,last_name,grade,in_time,out_time to csv file. """
+            """ Write 'first_name,last_name,grade,in_time,out_time' to csv file. """
 
             current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(current)
 
             handler = open('report.csv', 'a')
             name = f"{self.ids[f'first_name_{index}'].text},{self.ids[f'last_name_{index}'].text}"
@@ -107,14 +111,11 @@ class TrackerLayout(GridLayout):
             msg = f"{name},{self.ids[f'grade_btn_{index}'].text},{in_time},{str(current)}\n"
             handler.write(msg)
 
-            # reset this row's input fields
+            # reset current row's input fields
             self.ids[f'check_btn_{index}'].text = 'Check in'
             self.ids[f'first_name_{index}'].text = ''
             self.ids[f'last_name_{index}'].text = ''
             self.ids[f'grade_btn_{index}'].text = 'Grade'
 
+            # remove data from json file
             self.time_data.delete(name.replace(',', ''))
-
-
-class GradeDropdown(DropDown):
-    pass
