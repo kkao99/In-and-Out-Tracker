@@ -17,6 +17,7 @@ from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
 
 import datetime
+from functools import partial
 
 
 class TrackerScreen(Screen):
@@ -45,18 +46,30 @@ class TrackerLayout(GridLayout):
 
         self.time_data = JsonStore('time_data.json')
 
-        for i in range(1, 3):
-            print(i)
+        for i in range(1, 6):
+            """ Create grade 9-12 dropdown list. """
             self.ids[f'grade_dropdown_{i}'] = DropDown()
             btn = Button(size_hint_y=None, text='9', height=dp(40), font_size=dp(18))
-            # btn.bind(on_release=lambda btn: self.ids[f'grade_dropdown_{i}'].select(btn.text))
-            btn.bind(on_release=lambda btn: print(i))
+            btn.bind(on_release=partial(self._select_grade, index=i))
             self.ids[f'grade_dropdown_{i}'].add_widget(btn)
 
-            self.ids[f'grade_dropdown_{i}'].bind(on_select=lambda instance, x: setattr(self.ids[f'grade_btn_{i}'], 'text', x))
-            print(self.ids[f'grade_dropdown_{i}'])
-            print(self.ids[f'grade_btn_{i}'])
+            btn = Button(size_hint_y=None, text='10', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
 
+            btn = Button(size_hint_y=None, text='11', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            btn = Button(size_hint_y=None, text='12', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            # self.ids[f'grade_dropdown_{i}'].bind(on_select=lambda instance, x: setattr(self.ids[f'grade_btn_{i}'], 'text', x))
+
+    def _select_grade(self, event, index):
+        self.ids[f'grade_dropdown_{index}'].select(event.text)
+        self.ids[f'grade_btn_{index}'].text = event.text
 
     def change_page(self, event):
         app = App.get_running_app()
@@ -91,7 +104,7 @@ class TrackerLayout(GridLayout):
             handler = open('report.csv', 'a')
             name = f"{self.ids[f'first_name_{index}'].text},{self.ids[f'last_name_{index}'].text}"
             in_time = self.time_data.get(name.replace(',', ''))['in_time']
-            msg = f"{name},{self.ids.grade_btn_1.text},{in_time},{str(current)}\n"
+            msg = f"{name},{self.ids[f'grade_btn_{index}'].text},{in_time},{str(current)}\n"
             handler.write(msg)
 
             # reset this row's input fields
@@ -99,6 +112,8 @@ class TrackerLayout(GridLayout):
             self.ids[f'first_name_{index}'].text = ''
             self.ids[f'last_name_{index}'].text = ''
             self.ids[f'grade_btn_{index}'].text = 'Grade'
+
+            self.time_data.delete(name.replace(',', ''))
 
 
 class GradeDropdown(DropDown):
