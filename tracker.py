@@ -17,6 +17,7 @@ from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
 
 import datetime
+from functools import partial
 
 
 class TrackerScreen(Screen):
@@ -45,43 +46,74 @@ class TrackerLayout(GridLayout):
 
         self.time_data = JsonStore('time_data.json')
 
-        self.grade_dropdown = GradeDropdown()
-        self.grade_dropdown.bind(on_select=lambda instance, x: setattr(self.ids.grade_btn, 'text', x))
+        for i in range(1, 6):
+            """ Create grade 9-12 dropdown list. """
+            self.ids[f'grade_dropdown_{i}'] = DropDown()
+            btn = Button(size_hint_y=None, text='9', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            btn = Button(size_hint_y=None, text='10', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            btn = Button(size_hint_y=None, text='11', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            btn = Button(size_hint_y=None, text='12', height=dp(40), font_size=dp(18))
+            btn.bind(on_release=partial(self._select_grade, index=i))
+            self.ids[f'grade_dropdown_{i}'].add_widget(btn)
+
+            # self.ids[f'grade_dropdown_{i}'].bind(on_select=lambda instance, x: setattr(self.ids[f'grade_btn_{i}'], 'text', x))
+
+    def _select_grade(self, event, index):
+        self.ids[f'grade_dropdown_{index}'].select(event.text)
+        self.ids[f'grade_btn_{index}'].text = event.text
 
     def change_page(self, event):
         app = App.get_running_app()
         app.root.current = 'login'
         pass
 
-    def _open_grade_dropdown(self, widget):
-        self.grade_dropdown.open(widget)
+    def _open_grade_dropdown(self, widget, index):
+        self.ids[f'grade_dropdown_{index}'].open(widget)
 
-    def _update(self):
+    def _update(self, index):
 
         # TODO: save info to database, clear input field, and validate
 
-        print(self.ids.check_btn.text)
+        print(self.ids[f'check_btn_{index}'].text)
 
-        if self.ids.check_btn.text == 'Check in':
+        if self.ids[f'check_btn_{index}'].text == 'Check in':
+
+            # save the "get in time" to json
             current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(current)
-            self.ids.check_btn.text = 'Check out'
-            self.time_data.put(f"{self.ids.first_name.text}{self.ids.last_name.text}", in_time=current)
+            self.time_data.put(f"{self.ids[f'first_name_{index}'].text}{self.ids[f'last_name_{index}'].text}", in_time=current)
+
+            self.ids[f'check_btn_{index}'].text = 'Check out'
 
         else:
+
+            """ Write first_name,last_name,grade,in_time,out_time to csv file. """
+
             current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(current)
 
             handler = open('report.csv', 'a')
-            name = f"{self.ids.first_name.text},{self.ids.last_name.text}"
+            name = f"{self.ids[f'first_name_{index}'].text},{self.ids[f'last_name_{index}'].text}"
             in_time = self.time_data.get(name.replace(',', ''))['in_time']
-            out_time = f"{str(current)}"
-            msg = f"{name},{self.ids.grade_btn.text},{in_time},{out_time}\n"
+            msg = f"{name},{self.ids[f'grade_btn_{index}'].text},{in_time},{str(current)}\n"
             handler.write(msg)
 
-            self.ids.check_btn.text = 'Check in'
-            self.ids.first_name.text = ''
-            self.ids.last_name.text = ''
+            # reset this row's input fields
+            self.ids[f'check_btn_{index}'].text = 'Check in'
+            self.ids[f'first_name_{index}'].text = ''
+            self.ids[f'last_name_{index}'].text = ''
+            self.ids[f'grade_btn_{index}'].text = 'Grade'
+
+            self.time_data.delete(name.replace(',', ''))
 
 
 class GradeDropdown(DropDown):
