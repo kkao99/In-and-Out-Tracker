@@ -72,7 +72,7 @@ class TrackerLayout(GridLayout):
         self.ids[f'grade_dropdown_{index}'].open(widget)
 
     def _update(self, index):
-        
+
         if self.ids[f'check_btn_{index}'].text == 'Check in':
 
             if (self.ids[f'first_name_{index}'].text == '' or
@@ -94,7 +94,6 @@ class TrackerLayout(GridLayout):
             else:
                 # save the "get in time" to json
                 current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(current)
                 self.time_data.put(f"{self.ids[f'first_name_{index}'].text}{self.ids[f'last_name_{index}'].text}", in_time=current)
 
                 self.ids[f'check_btn_{index}'].text = 'Check out'
