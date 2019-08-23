@@ -20,7 +20,7 @@ $ pip install --upgrade pip          # upgrade pip to latest version
 $ pip install -r requirements.txt    # install necessary dependencies
 $ python main.py
 ```
-After issue these command, you should be able to see the application running.
+After issue these commands, you should be able to see the application running.
 
 To close the app, simply click on the :x: button on the top left and run `$ deactivate` to deactivate the virtual env.
 
@@ -29,6 +29,6 @@ To close the app, simply click on the :x: button on the top left and run `$ deac
 * Support login verification
 
 ## About
-* Created by [Kevin Kao]('https://github.com/kkao99') on 08/03/2019
+* Created by [Kevin Kao](https://github.com/kkao99) on 08/03/2019
 * MIT License
 * Just a random project for fun :trollface: ~
