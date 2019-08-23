@@ -1,1 +1,34 @@
 # In-and-Out-Tracker
+A desktop GUI that tracks people going in and out of a place.
+
+
+## Getting Started
+The following instruction can get you a copy of the application.
+
+### Prerequisites
+You will need python installed on your machine.
+
+### Installing
+Run the following in your terminal.
+
+```bash
+$ git clone https://github.com/kkao99/In-and-Out-Tracker
+$ cd In-and-Out-Tracker              # navigate to the directory
+$ python -m venv kivy_venv           # create a virtual env
+$ source kivy_venv/bin/activate      # activate the virtual env
+$ pip install --upgrade pip          # upgrade pip to latest version
+$ pip install -r requirements.txt    # install necessary dependencies
+$ python main.py
+```
+After issue these command, you should be able to see the application running.
+
+To close the app, simply click on the :x: button on the top left and run `$ deactivate` to deactivate the virtual env.
+
+## Features
+* Save records in a csv format file
+* Support login verification
+
+## About
+* Created by [Kevin Kao]('https://github.com/kkao99') on 08/03/2019
+* MIT License
+* Just a random project for fun :trollface: ~
