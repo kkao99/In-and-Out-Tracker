@@ -20,6 +20,7 @@ from kivy.uix.popup import Popup
 
 import datetime
 from functools import partial
+import os
 
 
 class TrackerScreen(Screen):
@@ -47,7 +48,7 @@ class TrackerLayout(GridLayout):
         self.row_force_default = True
 
         # store temparary in_time data in json file
-        self.time_data = JsonStore('time_data.json')
+        self.time_data = JsonStore(App.get_running_app().user_data_dir + '/time_data.json')
 
         for i in range(1, 6):
             """ Create grade 9-12 dropdown list. """
@@ -104,11 +105,13 @@ class TrackerLayout(GridLayout):
 
             current = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            handler = open('report.csv', 'a')
+
+            handler = open(App.get_running_app().user_data_dir + '/report.csv', 'a')
             name = f"{self.ids[f'first_name_{index}'].text},{self.ids[f'last_name_{index}'].text}"
             in_time = self.time_data.get(name.replace(',', ''))['in_time']
             msg = f"{name},{self.ids[f'grade_btn_{index}'].text},{in_time},{str(current)}\n"
             handler.write(msg)
+            handler.close()
 
             # reset current row's input fields
             self.ids[f'check_btn_{index}'].text = 'Check in'
