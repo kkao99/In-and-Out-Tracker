@@ -3,7 +3,7 @@ A desktop GUI that tracks people going in and out of a place.
 
 
 ## Getting Started
-The following instruction can get you a copy of the application.
+The following instruction can get you a copy of the project.
 
 ### Prerequisites
 You will need python installed on your machine.
