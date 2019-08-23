@@ -6,7 +6,9 @@ A desktop GUI that tracks people going in and out of a place.
 The following instruction can get you a copy of the project.
 
 ### Prerequisites
-You will need python installed on your machine.
+* You will need python `3.x` installed on your machine.
+* To check the python version, simply type `$ python --version` in your terminal.
+* Make sure you have `alias python='python3'` in your `~/.bash_profile` file.
 
 ### Installing
 Run the following in your terminal.
