@@ -27,6 +27,7 @@ After issue these commands, you should be able to see the application running.
 To close the app, simply click on the :x: button on the top left and run `$ deactivate` to deactivate the virtual env.
 
 ## Features
+* Minimize the use of paper (digital)
 * Save records in a csv format file
 * Support login verification
 
