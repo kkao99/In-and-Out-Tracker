@@ -1,0 +1,65 @@
+<LoginLayout>:
+
+    username_input: username.text
+    password_input: password.text
+
+    Label:
+        text: '[Insert Title]'
+        font_size: dp(40)
+
+    # username
+    GridLayout:
+        cols: 2
+        AnchorLayout:
+            anchor_x: 'right'
+            Label:
+                text: 'Username:'
+                font_size: dp(22)
+                size_hint: (None, None)
+                width: dp(200)
+                height: dp(40)
+        AnchorLayout:
+            anchor_x: 'left'
+            TextInput:
+                id: username
+                text: root.username_input
+                font_size: dp(20)
+                write_tab: False
+                size_hint: (None, None)
+                width: dp(200)
+                height: dp(40)
+
+    # password
+    GridLayout:
+        cols: 2
+        AnchorLayout:
+            anchor_x: 'right'
+            Label:
+                text: 'Password:'
+                font_size: dp(22)
+                size_hint: (None, None)
+                width: dp(200)
+                height: dp(40)
+        AnchorLayout:
+            anchor_x: 'left'
+            TextInput:
+                id: password
+                text: root.password_input
+                password: True
+                font_size: dp(20)
+                write_tab: False
+                size_hint: (None, None)
+                width: dp(200)
+                height: dp(40)
+
+    # login btn
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        Button:
+            text: 'Login'
+            size_hint: (None, None)
+            width: dp(100)
+            height: dp(45)
+            font_size: dp(20)
+            on_release: root._login(self)

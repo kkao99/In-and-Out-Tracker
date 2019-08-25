@@ -4,6 +4,8 @@ kivy.require('1.11.1')
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.metrics import dp
+from kivy.properties import StringProperty
+from kivy.lang.builder import Builder
 
 # layout
 from kivy.uix.floatlayout import FloatLayout
@@ -32,6 +34,9 @@ class LoginLayout(GridLayout):
     default password: abc123
     """
 
+    username_input = StringProperty()
+    password_input = StringProperty()
+
     def __init__(self, **kwargs):
         super(LoginLayout, self).__init__(**kwargs)
         self.size_hint = (0.6, 1)
@@ -41,43 +46,13 @@ class LoginLayout(GridLayout):
         self.row_default_height = dp(40)
         self.row_force_default = True
 
-        self.add_widget(Label(text='[Insert Titile]', font_size=dp(40)))
-
-        self.user_container = self._create_user_layout()
-        self.pass_container = self._create_pass_layout()
-        self.btn_container = self._create_btn()
-
-        self.add_widget(self.user_container)
-        self.add_widget(self.pass_container)
-        self.add_widget(self.btn_container)
-
-
-    def _create_btn(self):
-        layout = AnchorLayout(anchor_x='center', anchor_y='center')
-        btn = Button(text='login', size_hint=(None, None), width=dp(100), height=dp(50), font_size=dp(20))
-        btn.bind(on_release=self._login)
-        layout.add_widget(btn)
-        return layout
-
-    def _create_user_layout(self):
-        layout = GridLayout(cols=2)
-        layout.add_widget(Label(text='Username:'))
-        layout.username_input = TextInput(text='', write_tab=False)
-        layout.add_widget(layout.username_input)
-        return layout
-
-    def _create_pass_layout(self):
-        layout = GridLayout(cols=2)
-        layout.add_widget(Label(text='Password:'))
-        layout.password_input = TextInput(text='', password=True, write_tab=False)
-        layout.add_widget(layout.password_input)
-        return layout
-
+        self.username_input = ''
+        self.password_input = ''
 
     def _login(self, event):
 
-        if (self.user_container.username_input.text.strip() == 'admin' and
-            self.pass_container.password_input.text.strip() == 'abc123'):
+        if (self.username_input.strip() == 'admin' and
+            self.password_input == 'abc123'):
 
             # redirect to tracker page
             app = App.get_running_app()
