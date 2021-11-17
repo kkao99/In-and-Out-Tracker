@@ -34,4 +34,3 @@ To close the app, simply click on the :x: button on the top left and run `$ deac
 ## About
 * Created by [Kevin Kao](https://github.com/kkao99) on 08/03/2019
 * MIT License
-* Just a random project for fun :trollface: ~
