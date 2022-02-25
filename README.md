@@ -32,5 +32,5 @@ To close the app, simply click on the :x: button on the top left and run `$ deac
 * Support login verification
 
 ## About
-* Created by [Kevin Kao](https://github.com/kkao99) on 08/03/2019
+* Created by [Kevin](https://github.com/kkao99) on 08/03/2019
 * MIT License
